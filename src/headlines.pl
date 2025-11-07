@@ -50,7 +50,6 @@ if ($limit == 0 or $limit < 0) {
 }
 use warnings 'uninitialized';
 
-
 my $i = 0;
 print BOLD YELLOW "-= Headlines =-\n\n";
 foreach my $article (@articles) {
