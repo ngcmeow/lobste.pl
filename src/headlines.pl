@@ -18,6 +18,7 @@ sub help_dialog {
 }
 
 my $selected_page = 'recent';
+my $limit;
 
 if (@ARGV) {
     my $argv_count = scalar @ARGV;
@@ -26,6 +27,8 @@ if (@ARGV) {
         $selected_page = $ARGV[1] if ($ARGV[1] eq 'active');
     }
     $selected_page = $ARGV[0] if ($ARGV[0] eq 'active');
+    $limit = $ARGV[0] if (looks_like_number($ARGV[0]));
+    $limit = 5 if (!looks_like_number($ARGV[0]));
 } else {
     help_dialog();
 }
@@ -39,12 +42,6 @@ $mech->get($url);
 
 my $tree = HTML::TreeBuilder->new_from_content($mech->content());
 my @articles = $tree->look_down(_tag => 'li');
-
-my $limit;
-if (@ARGV) {
-    $limit = $ARGV[0] if (looks_like_number($ARGV[0]));
-    $limit = 5 if (!looks_like_number($ARGV[0]));
-}
 
 my $i = 0;
 print BOLD YELLOW "-= Headlines =-\n\n";
