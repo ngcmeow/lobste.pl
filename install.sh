@@ -14,10 +14,10 @@ sleep 10
 mkdir -p ~/bin > /dev/null 2>&1
 cp -v $BASEDIR/src/headlines.pl ~/bin
 
-if [ "$SHELL" = "/usr/bin/zsh" ]; then
+if [ "$SHELL" = "$(which zsh)" ]; then
     cat $BASEDIR/src/lobsters_startup.sh >> $ZSHRC
 fi
 
-if [ "$SHELL" = $BASH_PATH ]; then
+if [ "$SHELL" = "$(which bash)" ]; then
     cat $BASEDIR/src/lobsters_startup.sh >> $BASHRC
 fi
