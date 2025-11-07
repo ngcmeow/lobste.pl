@@ -1,5 +1,5 @@
 # lobste.pl
-This is a simple script to bring aggregated headlines to the shell from the lobste(dot)rs website.
+This is a simple script to bring aggregated headlines to the shell from the lobste.rs website.
 
 ## Dependencies:
 - WWW::Mechanize
