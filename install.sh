@@ -10,6 +10,10 @@ echo "ALWAYS REVIEW SCRIPTS BEFORE RUNNING!"
 echo "----------------------------------------"
 echo ""
 
+echo "****************************************"
+tail -n16 $0
+echo "****************************************"
+
 (( ++DELAY_SEC ))
 while (( --DELAY_SEC >= 0)); do
     printf "$DELAY_SEC..\r"
