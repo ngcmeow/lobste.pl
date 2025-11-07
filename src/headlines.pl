@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use WWW::Mechanize ();
 use HTML::TreeBuilder;
+use File::HomeDir;
+use File::Slurp;
 use open qw( :std :encoding(UTF-8) );
 use Term::ANSIColor qw(:constants);
 use Scalar::Util qw(looks_like_number);
@@ -14,7 +16,20 @@ sub help_dialog {
     print("Usage: perl headlines.pl [n] [page]\n");
     print("n = The amount of articles you want to preview\n");
     print("page = Optional parameter to select active or recent pages\n");
+	print("\nBlock articles with undesired subjects using ~/.lobsters_blacklist with one word per newline.");
     exit 0;
+}
+
+sub get_home_path {
+	return File::HomeDir->my_home;
+}
+
+sub if_blacklist {
+	my $blacklist_location = get_home_path() . "/.lobsters_blacklist";
+
+	if ( -e $blacklist_location ) {
+	  return read_file($blacklist_location, chomp => 1);
+  } else { return undef };
 }
 
 my $selected_page = 'recent';
@@ -52,12 +67,28 @@ foreach my $article (@articles) {
     $entry =~ s/\|.*//;
     $entry =~ s/\s{2,}.*//;
 
+    for (my $j = 0; $j < 3; $j++) {
+      if (looks_like_number(substr($entry, $j, 1))) {
+        $entry =~ s/^.//s
+      }
+    }
+    
     $href = $baseUrl . $href if (substr($href, 0, 3) eq "/s/");
 
-    print BOLD RED "[$i] $entry\n";
-    print BOLD GREEN "URL: $href\n";
-    print "\n";
+    if (defined if_blacklist() && if_blacklist() ne '') {
+      for my $line (if_blacklist()) {
+        if (index(lc($entry), lc($line)) != -1) {  
+          $entry = "redact";
+        }
+      }
+    }
 
+    if (!($entry eq "redact")) {
+      print BOLD RED "[$selected_page] $entry\n";
+      print BOLD GREEN "URL: $href\n";
+      print "\n";
+    }
+  
     ++$i;
     exit 0 if ($i > $limit);
 }
