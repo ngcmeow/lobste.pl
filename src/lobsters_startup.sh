@@ -7,7 +7,7 @@ if [ ! -d "$STORY_CACHE" ]; then
 fi
 
 if [ ! "$(find "$STORY_CACHE" -mmin -15)" ]; then
-    perl ~/bin/headlines.pl > $STORY_FILE
+    perl ~/bin/headlines.pl 4 > $STORY_FILE
     cat $STORY_FILE
 else
     cat $STORY_FILE
