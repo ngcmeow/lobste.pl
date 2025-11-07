@@ -4,5 +4,5 @@ This is a simple script to bring aggregated headlines to the shell from the lobs
 ## Dependencies:
 - WWW::Mechanize
 - HTML::TreeBuilder
-- File::HomeDir;
-- File::Slurp;
+- File::HomeDir
+- File::Slurp
