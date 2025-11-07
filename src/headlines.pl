@@ -26,6 +26,8 @@ if (@ARGV) {
         $selected_page = $ARGV[1] if ($ARGV[1] eq 'active');
     }
     $selected_page = $ARGV[0] if ($ARGV[0] eq 'active');
+} else {
+    help_dialog();
 }
 
 my $mech = WWW::Mechanize->new();
@@ -43,12 +45,6 @@ if (@ARGV) {
     $limit = $ARGV[0] if (looks_like_number($ARGV[0]));
     $limit = 5 if (!looks_like_number($ARGV[0]));
 }
-
-no warnings 'uninitialized';
-if ($limit == 0 or $limit < 0) {
-    help_dialog();
-}
-use warnings 'uninitialized';
 
 my $i = 0;
 print BOLD YELLOW "-= Headlines =-\n\n";
