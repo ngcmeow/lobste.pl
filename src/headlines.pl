@@ -44,6 +44,13 @@ if (@ARGV) {
     $limit = 5 if (!looks_like_number($ARGV[0]));
 }
 
+no warnings 'uninitialized';
+if ($limit == 0 or $limit < 0) {
+    help_dialog();
+}
+use warnings 'uninitialized';
+
+
 my $i = 0;
 print BOLD YELLOW "-= Headlines =-\n\n";
 foreach my $article (@articles) {
